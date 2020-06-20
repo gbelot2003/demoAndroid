@@ -49,18 +49,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void calcularSuma()
     {
-        EditText txtNumber1 = (EditText) findViewById(R.id.txtNumber1);
-        EditText txtNumber2 = (EditText) findViewById(R.id.txtNumber2);
-        TextView txResults = (TextView) findViewById(R.id.txResults);
+        GetValues getValues = new GetValues().invoke();
+        EditText txtNumber1 = getValues.getTxtNumber1();
+        EditText txtNumber2 = getValues.getTxtNumber2();
+        TextView txResults = getValues.getTxResults();
 
         int num1 = Integer.parseInt(txtNumber1.getText().toString());
         int num2 = Integer.parseInt(txtNumber2.getText().toString());
-        int result = num1 + num2;
 
-        txtNumber1.setText("");
-        txtNumber2.setText("");
+        Operations operations = new Operations();
+        int result = operations.calcularSuma(num1, num2);
+
+        clear_boxes(txtNumber1, txtNumber2);
 
         txResults.setText(String.valueOf(result));
+    }
+
+    private void clear_boxes(EditText txtNumber1, EditText txtNumber2) {
+        txtNumber1.setText("");
+        txtNumber2.setText("");
     }
 
     @Override
@@ -85,5 +92,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private class GetValues {
+        private EditText txtNumber1;
+        private EditText txtNumber2;
+        private TextView txResults;
 
+        public EditText getTxtNumber1() {
+            return txtNumber1;
+        }
+
+        public EditText getTxtNumber2() {
+            return txtNumber2;
+        }
+
+        public TextView getTxResults() {
+            return txResults;
+        }
+
+        public GetValues invoke() {
+            txtNumber1 = (EditText) findViewById(R.id.txtNumber1);
+            txtNumber2 = (EditText) findViewById(R.id.txtNumber2);
+            txResults = (TextView) findViewById(R.id.txResults);
+            return this;
+        }
+    }
 }
